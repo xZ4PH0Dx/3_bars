@@ -3,8 +3,7 @@ path='./1796'
 dic={}
 def load_data(filepath):
     with open(filepath,'r') as f:
-        json_str=json.loads(f.read())
-        return json_str
+        return json.loads(f.read())
 
 def get_name_seats(json_str):
     for i in json_str['features']:
@@ -28,9 +27,21 @@ def get_closest_bar(data, longitude, latitude):
     return(str({k for k,v in dic.items() if v == min(dic.values())}))
 
 if __name__ == '__main__':
-    longitude,latitude = [int(x) for x in input("Введите долготу и широту: ").split()]
-    print('Самый большой бар: ',get_biggest_bar(path))
-    print('Самый маленький бар: ',get_smallest_bar(path))
-    print('Ближайший бар: ',get_closest_bar(path,longitude,latitude))
+    choice = int(input("""Что Вы хотите найти?
+          1) Самый большой бар
+          2) Самый маленький бар
+          3) Ближайший бар
+          """))
+    if choice == 1:
+        print('Самый большой бар(ы): ', str(get_biggest_bar(path)).replace('{','').replace('}',''))
+    if choice == 2:
+        print('Самый маленький бар(ы): ', str(get_smallest_bar(path)).replace('{','').replace('}',''))
+    if choice == 3:
+        try:
+            longitude,latitude = [float(x) for x in input("Введите долготу и широту(только цифры и" +
+                                                                "разделительные точки): ").split()]
+            print('Ближайший бар: ',str(get_closest_bar(path,longitude,latitude)).replace('{','').replace('}',''))
+        except ValueError:
+            print('Не правильно введены данные')
 
 
