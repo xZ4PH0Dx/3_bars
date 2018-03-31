@@ -1,67 +1,72 @@
 import json
 
-path = './1796'
-dic = {}
+
+def ask_file_path():
+    return input('Введите путь, по которому лежат файлы:')
 
 
-def load_data(filepath):
-    with open(filepath, 'r') as f:
-        return json.loads(f.read())
+def ask_user_location():
+    try:
+        return [float(x) for x in input
+                ('Введите долготу и широту(только'
+                 ' цифры и разделительные точки): ')
+                .split()]
+    except (ValueError, TypeError):
+        print('Неправильно введены данные')
 
 
-def get_name_seats(json_str):
-    for i in json_str['features']:
-        dic[str(i['properties']['Attributes']['Name'])] =\
-            i['properties']['Attributes']['SeatsCount']
-    return dic
+def load_json(filepath):
+    try:
+        with open(filepath, 'r') as file:
+            return json.loads(file.read())
+    except FileNotFoundError:
+        print('Файл отсутствует!')
 
 
-def get_biggest_bar():
-    dic = get_name_seats(load_data(path))
-    return str({k for k, v in dic.items() if v == max(dic.values())})
+def get_biggest_bar(bars):
+    return max(bars, key=lambda bar: bar['properties']['Attributes']
+               ['SeatsCount'])
 
 
-def get_smallest_bar():
-    dic = get_name_seats(load_data(path))
-    return str({k for k, v in dic.items() if v == min(dic.values())})
+def get_smallest_bar(bars):
+    return min(bars, key=lambda bar: bar['properties']['Attributes']
+               ['SeatsCount'])
 
 
-def get_closest_bar(path, longitude, latitude):
-    user_loc = [int(str(longitude).replace('.', '')),
-                int(str(latitude).replace('.', ''))]
-    for i in load_data(path)['features']:
-        dic[str(i['properties']['Attributes']['Name'])] =\
-            abs(abs(int(str(i['geometry']['coordinates'][0]).replace('.', ''))
-                - user_loc[0]) -
-                abs(int(str(i['geometry']['coordinates'][1]).replace('.', ''))
-                - user_loc[1]))
-    return str({k for k, v in dic.items() if v == min(dic.values())})
+def get_closest_bar(bars, longitude, latitude):
+    return min(bars, key=lambda bar:
+               abs(abs(bar['geometry']['coordinates'][0] - longitude) -
+                   abs(bar['geometry']['coordinates'][1] - latitude)))
 
 
-def asking_user():
-    choice = int(input("""Что Вы хотите найти?
-              1) Самый большой бар
-              2) Самый маленький бар
-              3) Ближайший бар
-              """))
-    if choice == 1:
-        print('Самый большой бар(ы): ', str(get_biggest_bar(path))
-              .replace('{', '').replace('}', ''))
-    if choice == 2:
-        print('Самый маленький бар(ы): ', str(get_smallest_bar(path))
-              .replace('{', '').replace('}', ''))
-    if choice == 3:
-        try:
-            longitude, latitude = [float(x) for x in input
-                                   ("Введите долготу и широту(только"
-                                    " цифры и разделительные точки): ")
-                                   .split()]
-            print('Ближайший бар: ', str(get_closest_bar
-                                         (path, longitude, latitude))
-                  .replace('{', '').replace('}', ''))
-        except ValueError:
-            print('Не правильно введены данные')
+def print_choices():
+    return int(input('''Что Вы хотите найти?
+                  1) Самый большой бар
+                  2) Самый маленький бар
+                  3) Ближайший бар
+                  0) Выйти из программы
+                  '''))
 
 
 if __name__ == '__main__':
-    asking_user()
+    user_choice = print_choices()
+
+    if user_choice == 1:
+        print('Самый большой бар: ', str(get_biggest_bar
+                                         (load_json(ask_file_path())
+                                          ['features']))
+              .replace('{', '').replace('}', ''))
+
+    elif user_choice == 2:
+        print('Самый маленький бар: ', str(get_smallest_bar
+                                           (load_json(ask_file_path())
+                                            ['features']))
+              .replace('{', '').replace('}', ''))
+
+    elif user_choice == 3:
+        user_longitude, user_latitude = ask_user_location()
+        get_closest_bar(load_json(ask_file_path())['features'],
+                        user_longitude, user_latitude)
+
+    elif user_choice == 0:
+        exit()
