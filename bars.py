@@ -1,8 +1,12 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+
 import json
+import sys
+import os
 
-
-def ask_file_path():
-    return input('Введите путь, по которому лежат файлы:\n')
+filepath = str(os.getcwd()) + str(sys.argv[1])
 
 
 def ask_user_location():
@@ -50,13 +54,15 @@ def print_choices():
     '''))
 
 
-def get_bars_list():
-    return load_json(ask_file_path())['features']
+def get_bars_list(filepath):
+    return load_json(filepath)['features']
 
 
 if __name__ == '__main__':
+    filepath = str(sys.argv[1])
+    print(filepath)
     user_choice = print_choices()
-    bars_list = get_bars_list()
+    bars_list = get_bars_list(filepath)
 
     if user_choice == 1:
         print('Самый большой бар: ',
