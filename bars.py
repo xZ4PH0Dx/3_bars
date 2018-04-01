@@ -6,8 +6,6 @@ import json
 import sys
 import os
 
-filepath = str(os.getcwd()) + str(sys.argv[1])
-
 
 def ask_user_location():
     try:
@@ -54,15 +52,16 @@ def print_choices():
     '''))
 
 
-def get_bars_list(filepath):
-    return load_json(filepath)['features']
+def get_bars_list(bars):
+    return bars['features']
 
 
 if __name__ == '__main__':
     filepath = str(sys.argv[1])
     print(filepath)
     user_choice = print_choices()
-    bars_list = get_bars_list(filepath)
+    bars = load_json(filepath)
+    bars_list = get_bars_list(bars)
 
     if user_choice == 1:
         print('Самый большой бар: ',
