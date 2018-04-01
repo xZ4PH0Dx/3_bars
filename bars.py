@@ -32,11 +32,14 @@ def get_smallest_bar(bars_list):
                ['Attributes']['SeatsCount'])
 
 
-def get_closest_bar(bars_list, longitude, latitude):
-    closest_bar = min(bars_list, key=lambda bar:
-                      abs((bar['geometry']['coordinates'][0] - longitude) -
-                          (bar['geometry']['coordinates'][1] - latitude)))
-    return closest_bar
+def get_closest_bar(bars_list, latitude, longitude):
+    return min(
+        bars_list,
+        key=lambda bar: abs(
+            (bar['geometry']['coordinates'][0] - latitude) -
+            (bar['geometry']['coordinates'][1] - longitude)
+        )
+    )
 
 
 def print_choices():
@@ -64,6 +67,6 @@ if __name__ == '__main__':
               str(get_smallest_bar(bars_list)))
 
     elif user_choice == 3:
-        user_longitude, user_latitude = ask_user_location()
+        user_latitude, user_longitude = ask_user_location()
         print('Ближайший бар: ',
-              str(get_closest_bar(bars_list, user_longitude, user_latitude)))
+              str(get_closest_bar(bars_list, user_latitude, user_longitude)))
