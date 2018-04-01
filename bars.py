@@ -37,8 +37,8 @@ def get_smallest_bar(bars_list):
 
 def get_closest_bar(bars_list, longitude, latitude):
     return min(bars_list, key=lambda bar:
-               abs(abs(bar['geometry']['coordinates'][0] - longitude) -
-                   abs(bar['geometry']['coordinates'][1] - latitude)))
+               abs(bar['geometry']['coordinates'][0] - longitude) -
+                   abs(bar['geometry']['coordinates'][1] - latitude))
 
 
 def print_choices():
