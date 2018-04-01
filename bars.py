@@ -2,7 +2,7 @@ import json
 
 
 def ask_file_path():
-    return input('Введите путь, по которому лежат файлы:')
+    return input('Введите путь, по которому лежат файлы:\n')
 
 
 def ask_user_location():
@@ -43,11 +43,11 @@ def get_closest_bar(bars_list, longitude, latitude):
 
 def print_choices():
     return int(input('''Что Вы хотите найти?
-                      1) Самый большой бар
-                      2) Самый маленький бар
-                      3) Ближайший бар
-                      0) Выйти из программы
-                      '''))
+    1) Самый большой бар
+    2) Самый маленький бар
+    3) Ближайший бар
+    0) Выйти из программы\n
+    '''))
 
 def get_bars_list():
     return load_json(ask_file_path())['features']
