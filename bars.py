@@ -55,20 +55,20 @@ def get_bars_list():
 
 if __name__ == '__main__':
     user_choice = print_choices()
-    bars = get_bars_list()
+
     if user_choice == 1:
         print('Самый большой бар: ',
-              str(get_biggest_bar(bars))
+              str(get_biggest_bar(get_bars_list()))
               .replace('{', '').replace('}', ''))
 
     elif user_choice == 2:
         print('Самый маленький бар: ',
-              str(get_smallest_bar(bars))
+              str(get_smallest_bar(get_bars_list()))
               .replace('{', '').replace('}', ''))
 
     elif user_choice == 3:
         user_longitude, user_latitude = ask_user_location()
-        get_closest_bar(bars, user_longitude, user_latitude)
+        get_closest_bar(get_bars_list(), user_longitude, user_latitude)
 
     elif user_choice == 0:
         exit()
