@@ -8,9 +8,8 @@ def ask_file_path():
 def ask_user_location():
     try:
         return [float(x) for x in input
-        ('Введите долготу и широту(только'
-         ' цифры и разделительные точки): ')
-            .split()]
+                ('Введите долготу и широту(только'
+                 ' цифры и разделительные точки): ').split()]
     except (ValueError, TypeError):
         print('Неправильно введены данные')
 
@@ -25,21 +24,20 @@ def load_json(filepath):
 
 def get_biggest_bar(bars_list):
     return max(bars_list, key=lambda bar: bar['properties']
-    ['Attributes']
-    ['SeatsCount'])
+               ['Attributes']['SeatsCount'])
 
 
 def get_smallest_bar(bars_list):
     return min(bars_list, key=lambda bar: bar['properties']
-    ['Attributes']
-    ['SeatsCount'])
+               ['Attributes']['SeatsCount'])
 
 
 def get_closest_bar(bars_list, longitude, latitude):
     closest_bar = min(bars_list, key=lambda bar:
-    abs((bar['geometry']['coordinates'][0] - longitude) -
-        (bar['geometry']['coordinates'][1] - latitude)))
+                      abs((bar['geometry']['coordinates'][0] - longitude) -
+                          (bar['geometry']['coordinates'][1] - latitude)))
     return closest_bar
+
 
 def print_choices():
     return int(input('''Что Вы хотите найти?
@@ -59,16 +57,13 @@ if __name__ == '__main__':
 
     if user_choice == 1:
         print('Самый большой бар: ',
-              str(get_biggest_bar(bars_list))
-              .replace('{', '').replace('}', ''))
+              str(get_biggest_bar(bars_list)))
 
     elif user_choice == 2:
         print('Самый маленький бар: ',
-              str(get_smallest_bar(bars_list))
-              .replace('{', '').replace('}', ''))
+              str(get_smallest_bar(bars_list)))
 
     elif user_choice == 3:
         user_longitude, user_latitude = ask_user_location()
         print('Ближайший бар: ',
-        str(get_closest_bar(bars_list, user_longitude, user_latitude))
-              .replace('{','').replace('}',''))
+              str(get_closest_bar(bars_list, user_longitude, user_latitude)))
