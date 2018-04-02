@@ -4,7 +4,6 @@
 
 import json
 import sys
-import os
 
 
 def ask_user_location():
@@ -14,11 +13,8 @@ def ask_user_location():
 
 
 def load_data(filepath):
-    try:
-        with open(filepath, 'r') as file:
-            return json.loads(file.read())
-    except FileNotFoundError:
-        print('Файл отсутствует!')
+    with open(filepath, 'r') as file:
+        return json.loads(file.read())
 
 
 def get_biggest_bar(bars_list):
@@ -43,10 +39,9 @@ def get_closest_bar(bars_list, latitude, longitude):
 
 def print_choices():
     return int(input('''Что Вы хотите найти?
-    1) Самый большой бар
-    2) Самый маленький бар
-    3) Ближайший бар\n
-    '''))
+          1) Самый большой бар
+          2) Самый маленький бар
+          3) Ближайший бар'''))
 
 
 def get_bars_list(bars):
@@ -55,9 +50,18 @@ def get_bars_list(bars):
 
 if __name__ == '__main__':
     filepath = str(sys.argv[1])
-    print(filepath)
-    user_choice = print_choices()
-    bars = load_data(filepath)
+
+    try:
+        user_choice = print_choices()
+    except ValueError:
+        print('Нет такого варианта')
+        user_choice = print_choices()
+
+    try: 
+        bars = load_data(filepath)
+    except(FileNotFoundError):
+        print('Файл не найден или поврежден')
+
     bars_list = get_bars_list(bars)
 
     if user_choice == 1:
