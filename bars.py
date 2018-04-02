@@ -8,15 +8,12 @@ import os
 
 
 def ask_user_location():
-    try:
-        return [float(x) for x in input
+    return [float(x) for x in input
                 ('Введите долготу и широту(только'
                  ' цифры и разделительные точки): ').split()]
-    except (ValueError, TypeError):
-        print('Неправильно введены данные')
 
 
-def load_json(filepath):
+def load_data(filepath):
     try:
         with open(filepath, 'r') as file:
             return json.loads(file.read())
@@ -60,7 +57,7 @@ if __name__ == '__main__':
     filepath = str(sys.argv[1])
     print(filepath)
     user_choice = print_choices()
-    bars = load_json(filepath)
+    bars = load_data(filepath)
     bars_list = get_bars_list(bars)
 
     if user_choice == 1:
@@ -72,6 +69,11 @@ if __name__ == '__main__':
               str(get_smallest_bar(bars_list)))
 
     elif user_choice == 3:
-        user_latitude, user_longitude = ask_user_location()
+        try:
+            user_latitude, user_longitude = ask_user_location()
+        except (ValueError, TypeError):
+            print('Неправильно введены данные')
+            #exit()
+        
         print('Ближайший бар: ',
               str(get_closest_bar(bars_list, user_latitude, user_longitude)))
