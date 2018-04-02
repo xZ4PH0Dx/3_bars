@@ -6,6 +6,7 @@ import json
 import sys
 
 
+filepath = str(sys.argv[1])
 user_choice = 0
 user_latitude = None
 user_longitude = None
@@ -59,11 +60,6 @@ def get_bars_list(loaded_data):
 
 
 if __name__ == '__main__':
-    try:
-        filepath = str(sys.argv[1])
-    except IndexError:
-        print('Укажите один аргумент с путём к файлу')
-        exit()
 
     while user_choice not in (1, 2, 3):
         try:
@@ -74,7 +70,6 @@ if __name__ == '__main__':
     try:
         bars_data = load_data(filepath)
     except FileNotFoundError:
-        print('Файл не найден или поврежден, программа будет закрыта.')
         exit()
 
     bars_list = get_bars_list(bars_data)
