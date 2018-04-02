@@ -12,7 +12,7 @@
 
 ```bash
 
-$ python3 bars.py ~/git/misc/1796  # possibly requires call of python3 executive instead of just python
+$ python3 bars.py ~/git/misc/1796
 Что Вы хотите найти?
   1) Самый большой бар
   2) Самый маленький бар
