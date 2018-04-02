@@ -10,6 +10,7 @@ user_choice = 0
 user_latitude = None
 user_longitude = None
 
+
 def ask_user_location():
     return [float(x) for x in input
             ('Введите долготу и широту(только'
@@ -53,8 +54,8 @@ def print_choices():
                      '  3) Ближайший бар\n'))
 
 
-def get_bars_list(bars):
-    return bars['features']
+def get_bars_list(loaded_data):
+    return loaded_data['features']
 
 
 if __name__ == '__main__':
@@ -70,19 +71,13 @@ if __name__ == '__main__':
         except ValueError:
             print('Используйте только цифры')
 
-    #try:
-    #    user_choice = print_choices()
-    #except ValueError:
-    #    print('Нет такого варианта')
-    #    user_choice = print_choices()
-
     try:
-        bars = load_data(filepath)
+        bars_data = load_data(filepath)
     except FileNotFoundError:
         print('Файл не найден или поврежден, программа будет закрыта.')
         exit()
 
-    bars_list = get_bars_list(bars)
+    bars_list = get_bars_list(bars_data)
 
     if user_choice == 1:
         print('Самый большой бар: ',
