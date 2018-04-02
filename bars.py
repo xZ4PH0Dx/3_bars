@@ -18,23 +18,25 @@ def load_data(filepath):
 
 
 def get_biggest_bar(bars_list):
-    return max(bars_list, key=lambda bar: bar['properties']
+    processed_data = max(bars_list, key=lambda bar: bar['properties']
                ['Attributes']['SeatsCount'])
+    return processed_data['properties']['Attributes']['Name']
 
 
 def get_smallest_bar(bars_list):
-    return min(bars_list, key=lambda bar: bar['properties']
+    processed_data = min(bars_list, key=lambda bar: bar['properties']
                ['Attributes']['SeatsCount'])
-
+    return processed_data['properties']['Attributes']['Name']
 
 def get_closest_bar(bars_list, latitude, longitude):
-    return min(
+    processed_data = min(
         bars_list,
         key=lambda bar: abs(
             (bar['geometry']['coordinates'][0] - latitude) -
             (bar['geometry']['coordinates'][1] - longitude)
         )
     )
+    return processed_data['properties']['Attributes']['Name']
 
 
 def print_choices():
