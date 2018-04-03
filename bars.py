@@ -8,8 +8,6 @@ import os
 
 
 filepath = str(sys.argv[1])
-user_latitude = None
-user_longitude = None
 
 
 def ask_user_location():
