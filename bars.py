@@ -47,10 +47,9 @@ def get_bars_list(loaded_data):
 
 if __name__ == '__main__':
 
-    if len(sys.argv) == 2:
-        filepath = sys.argv[1]
-    else:
+    if len(sys.argv) != 2:
         sys.exit('Вы не указали путь к файлу!')
+    filepath = sys.argv[1]
 
     try:
         bars_list = get_bars_list(load_data(filepath))
