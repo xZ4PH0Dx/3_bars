@@ -55,8 +55,7 @@ if __name__ == '__main__':
     try:
         bars_list = get_bars_list(load_data(filepath))
     except (OSError, ValueError):
-        print('Файл отсутствует или это не json')
-        exit()
+        sys.exit('Файл отсутствует или это не json')
 
     try:
         user_latitude, user_longitude = get_user_location()
@@ -70,8 +69,5 @@ if __name__ == '__main__':
           get_smallest_bar(bars_list)['properties']['Attributes']['Name'])
 
     print('Ближайший бар: ',
-          get_closest_bar(
-              bars_list,
-              user_latitude,
-              user_longitude
-          )['properties']['Attributes']['Name'])
+          get_closest_bar(bars_list, user_latitude, user_longitude)
+          ['properties']['Attributes']['Name'])
