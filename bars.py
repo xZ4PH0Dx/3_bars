@@ -8,8 +8,6 @@ import os
 
 
 filepath = str(sys.argv[1])
-user_choices = ['1', '2', '3', 1, 2, 3]
-user_choice = None
 user_latitude = None
 user_longitude = None
 
@@ -52,38 +50,22 @@ def get_closest_bar(bars_list, latitude, longitude):
     return processed_data['properties']['Attributes']['Name']
 
 
-def print_choices():
-    return input('Что Вы хотите найти?\n'
-                 '  1) Самый большой бар\n'
-                 '  2) Самый маленький бар\n'
-                 '  3) Ближайший бар\n')
-
-
 def get_bars_list(loaded_data):
     return loaded_data['features']
 
 
 if __name__ == '__main__':
 
-    while user_choice not in user_choices:
-        user_choice = print_choices()
-
     bars_list = get_bars_list(load_data(filepath))
     if not bars_list:
-        print('Проверьте корректность пути')
+        exit()
 
-    if int(user_choice) == 1:
-        print('Самый большой бар: ',
-              str(get_biggest_bar(bars_list)))
+    try:
+        user_latitude, user_longitude = ask_user_location()
+    except(ValueError, TypeError):
+        exit()
 
-    elif int(user_choice) == 2:
-        print('Самый маленький бар: ',
-              str(get_smallest_bar(bars_list)))
-
-    elif int(user_choice) == 3:
-        try:
-            user_latitude, user_longitude = ask_user_location()
-        except (ValueError, TypeError):
-            user_latitude, user_longitude = ask_user_location()
-        print('Ближайший бар: ',
-              str(get_closest_bar(bars_list, user_latitude, user_longitude)))
+    print('Самый большой бар: ', str(get_biggest_bar(bars_list)))
+    print('Самый маленький бар: ', str(get_smallest_bar(bars_list)))
+    print('Ближайший бар: ',
+          str(get_closest_bar(bars_list, user_latitude, user_longitude)))
