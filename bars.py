@@ -81,10 +81,9 @@ if __name__ == '__main__':
               str(get_smallest_bar(bars_list)))
 
     elif int(user_choice) == 3:
-        while not user_latitude or not user_longitude:
-            try:
-                user_latitude, user_longitude = ask_user_location()
-            except (ValueError, TypeError):
-                print('Недостаточное количество аргументов')
+        try:
+            user_latitude, user_longitude = ask_user_location()
+        except (ValueError, TypeError):
+            user_latitude, user_longitude = ask_user_location()
         print('Ближайший бар: ',
               str(get_closest_bar(bars_list, user_latitude, user_longitude)))
