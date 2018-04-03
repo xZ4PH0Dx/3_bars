@@ -3,9 +3,6 @@ import sys
 import os
 
 
-filepath = str(sys.argv[1])
-
-
 def get_user_location():
     return [float(x) for x in input
             ('Введите долготу и широту(только'
@@ -13,8 +10,6 @@ def get_user_location():
 
 
 def load_data(filepath):
-    if not os.path.exists(filepath):
-        return None
     with open(filepath, 'r') as file:
         return json.loads(file.read())
 
@@ -54,8 +49,12 @@ def get_bars_list(loaded_data):
 
 if __name__ == '__main__':
 
-    bars_list = get_bars_list(load_data(filepath))
-    if not bars_list:
+    filepath = sys.argv[1]
+
+    try:
+        bars_list = get_bars_list(load_data(filepath))
+    except (OSError, ValueError):
+        print('Файл отсутствует или это не json')
         exit()
 
     try:
