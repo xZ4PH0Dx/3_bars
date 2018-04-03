@@ -15,7 +15,7 @@ user_longitude = None
 def ask_user_location():
     return [float(x) for x in input
             ('Введите долготу и широту(только'
-             ' цифры и разделительные точки): ').split()]
+             ' цифры и разделительные точки):\n').split()]
 
 
 def load_data(filepath):
