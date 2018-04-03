@@ -4,6 +4,7 @@
 
 import json
 import sys
+import os
 
 
 filepath = str(sys.argv[1])
@@ -19,6 +20,8 @@ def ask_user_location():
 
 
 def load_data(filepath):
+    if not os.path.exists(filepath):
+        return None
     with open(filepath, 'r') as file:
         return json.loads(file.read())
 
@@ -67,10 +70,9 @@ if __name__ == '__main__':
         except ValueError:
             print('Используйте только цифры')
 
-    try:
-        bars_data = load_data(filepath)
-    except FileNotFoundError:
-        exit()
+    bars_data = load_data(filepath)
+    if not bars_data:
+        print('Проверьте корректность пути')
 
     bars_list = get_bars_list(bars_data)
 
