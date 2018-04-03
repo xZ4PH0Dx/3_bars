@@ -1,7 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-
 import json
 import sys
 import os
@@ -10,7 +6,7 @@ import os
 filepath = str(sys.argv[1])
 
 
-def ask_user_location():
+def get_user_location():
     return [float(x) for x in input
             ('Введите долготу и широту(только'
              ' цифры и разделительные точки):\n').split()]
@@ -24,28 +20,32 @@ def load_data(filepath):
 
 
 def get_biggest_bar(bars_list):
-    processed_data = max(bars_list, key=lambda bar: bar['properties']
-                                                       ['Attributes']
-                                                       ['SeatsCount'])
-    return processed_data['properties']['Attributes']['Name']
+    bar = max(
+        bars_list,
+        key=lambda bar:
+        bar['properties']['Attributes']['SeatsCount']
+    )
+    return bar
 
 
 def get_smallest_bar(bars_list):
-    processed_data = min(bars_list, key=lambda bar: bar['properties']
-                                                       ['Attributes']
-                                                       ['SeatsCount'])
-    return processed_data['properties']['Attributes']['Name']
+    bar = min(
+        bars_list,
+        key=lambda bar:
+        bar['properties']['Attributes']['SeatsCount']
+    )
+    return bar
 
 
 def get_closest_bar(bars_list, latitude, longitude):
-    processed_data = min(
+    bar = min(
         bars_list,
         key=lambda bar: abs(
             (bar['geometry']['coordinates'][0] - latitude) -
             (bar['geometry']['coordinates'][1] - longitude)
         )
     )
-    return processed_data['properties']['Attributes']['Name']
+    return bar
 
 
 def get_bars_list(loaded_data):
@@ -59,11 +59,18 @@ if __name__ == '__main__':
         exit()
 
     try:
-        user_latitude, user_longitude = ask_user_location()
+        user_latitude, user_longitude = get_user_location()
     except(ValueError, TypeError):
         exit()
 
-    print('Самый большой бар: ', str(get_biggest_bar(bars_list)))
-    print('Самый маленький бар: ', str(get_smallest_bar(bars_list)))
+    print('Самый большой бар: ', str(
+        get_biggest_bar(bars_list)['properties']['Attributes']['Name'])
+          )
+    print('Самый маленький бар: ', str(
+        get_smallest_bar(bars_list)['properties']['Attributes']['Name'])
+          )
     print('Ближайший бар: ',
-          str(get_closest_bar(bars_list, user_latitude, user_longitude)))
+          str(get_closest_bar(
+                  bars_list, user_latitude, user_longitude
+              )['properties']['Attributes']['Name'])
+          )
