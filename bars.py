@@ -57,7 +57,7 @@ if __name__ == '__main__':
         user_latitude, user_longitude = get_user_location()
     except (OSError, JSONDecodeError):
         sys.exit('Файл отсутствует или это не json')
-    except(TypeError,ValueError):
+    except(TypeError, ValueError):
         sys.exit('Вы ввели неверные координаты!')
 
     print('Самый большой бар: ',
