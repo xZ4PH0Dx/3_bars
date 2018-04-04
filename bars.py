@@ -1,6 +1,7 @@
 import json
 import sys
 import os
+from json.decoder import JSONDecodeError
 
 
 def get_user_location():
@@ -54,10 +55,10 @@ if __name__ == '__main__':
     try:
         bars_list = get_bars_list(load_data(filepath))
         user_latitude, user_longitude = get_user_location()
-    except(ValueError, TypeError):
-        sys.exit('Вы ввели неверные координаты!')
-    except (OSError, ValueError):
+    except (OSError, JSONDecodeError):
         sys.exit('Файл отсутствует или это не json')
+    except(TypeError,ValueError):
+        sys.exit('Вы ввели неверные координаты!')
 
     print('Самый большой бар: ',
           get_biggest_bar(bars_list)['properties']['Attributes']['Name'])
